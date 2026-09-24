@@ -8,7 +8,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/<your-org-or-user>/fitlogger-infra.git
+    repoURL: https://github.com/bikstok/fitlogger-infra.git
     targetRevision: HEAD
     path: apps
     directory:
