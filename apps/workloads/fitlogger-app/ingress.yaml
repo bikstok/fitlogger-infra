@@ -1,0 +1,38 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: fitlogger-app
+  namespace: fitlogger
+  labels:
+    app.kubernetes.io/name: fitlogger-app
+    app.kubernetes.io/part-of: fitlogger
+  annotations:
+    kubernetes.io/ingress.class: traefik
+    cert-manager.io/cluster-issuer: cloudflare-dns-issuer
+spec:
+  tls:
+    - hosts:
+        - fitlogger.<tld>
+        - app.fitlogger.<tld>
+      secretName: fitlogger-wildcard-cert
+  rules:
+    - host: fitlogger.<tld>
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: fitlogger-app
+                port:
+                  name: http
+    - host: app.fitlogger.<tld>
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: fitlogger-app
+                port:
+                  name: http

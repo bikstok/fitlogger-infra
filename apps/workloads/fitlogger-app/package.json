@@ -1,0 +1,21 @@
+{
+  "name": "fitlogger-app",
+  "version": "1.0.0",
+  "description": "Fitlogger simple tracking web application",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test"
+  },
+  "keywords": [
+    "fitness",
+    "tracker",
+    "kubernetes",
+    "fitlogger"
+  ],
+  "author": "Fitlogger Team",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}
