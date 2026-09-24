@@ -12,11 +12,11 @@ metadata:
 spec:
   tls:
     - hosts:
-        - fitlogger.<tld>
-        - app.fitlogger.<tld>
+        - fitlogger.dk
+        - app.fitlogger.dk
       secretName: fitlogger-wildcard-cert
   rules:
-    - host: fitlogger.<tld>
+    - host: fitlogger.dk
       http:
         paths:
           - path: /
@@ -26,7 +26,7 @@ spec:
                 name: fitlogger-app
                 port:
                   name: http
-    - host: app.fitlogger.<tld>
+    - host: app.fitlogger.dk
       http:
         paths:
           - path: /

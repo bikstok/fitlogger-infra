@@ -1,4 +1,4 @@
 mirrors:
-  "registry.fitlogger.<tld>":
+  "registry.fitlogger.dk":
     endpoint:
       - "http://registry.container-registry.svc.cluster.local:5000"
