@@ -1,5 +1,5 @@
 mirrors:
   "registry.fitlogger.dk":
     endpoint:
-      - "http://127.0.0.1:80"
+      - "http://127.0.0.1:5000"
       - "http://registry.container-registry.svc.cluster.local:5000"
