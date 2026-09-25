@@ -79,7 +79,9 @@ fitlogger-infra/
     │   ├── pvc.yaml                  # Local-path persistent volume claim (10Gi)
     │   ├── deployment.yaml           # Docker Registry v2 / Distribution
     │   ├── service.yaml              # ClusterIP service exposed on port 5000
-    │   └── ingress.yaml              # Ingress for registry.fitlogger.dk
+    │   ├── ui-deployment.yaml        # Docker Registry Web UI (joxit/docker-registry-ui)
+    │   ├── ui-service.yaml           # ClusterIP service for Web UI (port 80)
+    │   └── ingress.yaml              # Ingress for registry.fitlogger.dk (routes to Web UI)
     ├── workloads/
     │   └── fitlogger-app/            # Pure declarative Kubernetes manifests
     │       ├── namespace.yaml        # fitlogger namespace
