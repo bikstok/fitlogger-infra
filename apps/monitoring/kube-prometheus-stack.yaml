@@ -16,7 +16,6 @@ spec:
     helm:
       releaseName: kube-prometheus-stack
       valuesObject:
-        defaultDashboardsEnabled: false
         kubeEtcd:
           enabled: false
         kubeScheduler:
@@ -56,6 +55,13 @@ spec:
                 memory: 128Mi
         nodeExporter:
           enabled: true
+          operatingSystems:
+            linux:
+              enabled: true
+            aix:
+              enabled: false
+            darwin:
+              enabled: false
         prometheus-node-exporter:
           hostRootFsMount:
             enabled: false
@@ -63,6 +69,7 @@ spec:
           enabled: true
         grafana:
           enabled: true
+          defaultDashboardsEnabled: false
           adminPassword: "prom-operator"
           grafana.ini:
             dashboards:
