@@ -1,0 +1,49 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: arc-runner-scale-set
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  project: default
+  source:
+    repoURL: ghcr.io/actions/actions-runner-controller-charts
+    chart: gha-runner-scale-set
+    targetRevision: 0.14.2
+    helm:
+      releaseName: fitlogger-runners
+      valuesObject:
+        githubConfigUrl: "https://github.com/bikstok/fitlogger-infra"
+        githubConfigSecret: "arc-github-secret"
+        controllerServiceAccount:
+          namespace: arc-systems
+          name: arc-controller-gha-rs-controller
+        minRunners: 0
+        maxRunners: 2
+        containerMode:
+          type: "kubernetes"
+        template:
+          spec:
+            containers:
+              - name: runner
+                image: ghcr.io/actions/actions-runner:latest
+                command: ["/home/runner/run.sh"]
+                resources:
+                  requests:
+                    cpu: 100m
+                    memory: 256Mi
+                  limits:
+                    cpu: 1000m
+                    memory: 1Gi
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: arc-runners
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

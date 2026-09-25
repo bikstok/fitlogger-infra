@@ -1,0 +1,32 @@
+name: Build & Push Fitlogger App
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/fitlogger-app/**'
+      - '.github/workflows/build-fitlogger.yaml'
+  workflow_dispatch:
+
+jobs:
+  build-and-push:
+    name: Build & Push via Kaniko (Daemonless)
+    runs-on: fitlogger-runners
+    container:
+      image: gcr.io/kaniko-project/executor:debug
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Build and Push Image to Internal Registry
+        run: |
+          echo "Starting daemonless rootless container build with Kaniko..."
+          /kaniko/executor \
+            --context="${{ github.workspace }}/src/fitlogger-app" \
+            --dockerfile="${{ github.workspace }}/src/fitlogger-app/Dockerfile" \
+            --destination="registry.container-registry.svc.cluster.local:5000/fitlogger/fitlogger-app:${{ github.sha }}" \
+            --destination="registry.container-registry.svc.cluster.local:5000/fitlogger/fitlogger-app:latest" \
+            --insecure \
+            --skip-tls-verify
+          echo "Successfully pushed fitlogger-app image to internal registry!"
