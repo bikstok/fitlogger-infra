@@ -9,15 +9,21 @@ on:
       - '.github/workflows/build-fitlogger.yaml'
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build-and-push:
-    name: Build & Push Container Image
+    name: Build, Push & Update GitOps Manifest
     runs-on: fitlogger-runners
     container:
       image: quay.io/buildah/stable
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build & Push Image
         run: |
@@ -34,4 +40,23 @@ jobs:
           buildah --storage-driver vfs push --tls-verify=false \
             registry.container-registry.svc.cluster.local:5000/fitlogger/fitlogger-app:latest
 
-          echo "Image successfully pushed to registry.container-registry.svc.cluster.local:5000/fitlogger/fitlogger-app:latest"
+          echo "Image successfully pushed to registry."
+
+      - name: Update GitOps Manifest
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          echo "Updating deployment manifest with image tag ${{ github.sha }}..."
+          sed -i "s|image: registry.fitlogger.dk/fitlogger/fitlogger-app:.*|image: registry.fitlogger.dk/fitlogger/fitlogger-app:${{ github.sha }}|g" apps/workloads/fitlogger-app/deployment.yaml
+
+          git add apps/workloads/fitlogger-app/deployment.yaml
+          if git diff --staged --quiet; then
+            echo "Manifest already up to date, skipping commit."
+          else
+            git commit -m "chore(deploy): update fitlogger-app image to ${{ github.sha }} [skip ci]"
+            git pull --rebase origin main
+            git push origin main
+            echo "Successfully updated deployment manifest in Git. ArgoCD will sync automatically."
+          fi
