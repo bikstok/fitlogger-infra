@@ -13,21 +13,41 @@ jobs:
   build-and-push:
     name: Build & Push via Kaniko (Daemonless)
     runs-on: fitlogger-runners
-    container:
-      image: gcr.io/kaniko-project/executor:debug
-      options: --entrypoint ""
     steps:
-      - name: Checkout Source Code
-        uses: actions/checkout@v4
+      - name: Install kubectl
+        uses: azure/setup-kubectl@v4
 
-      - name: Build and Push Image to Internal Registry
+      - name: Launch Kaniko In-Cluster Builder
         run: |
-          echo "Starting daemonless rootless container build with Kaniko..."
-          /kaniko/executor \
-            --context="${{ github.workspace }}/src/fitlogger-app" \
-            --dockerfile="${{ github.workspace }}/src/fitlogger-app/Dockerfile" \
-            --destination="registry.container-registry.svc.cluster.local:5000/fitlogger/fitlogger-app:${{ github.sha }}" \
-            --destination="registry.container-registry.svc.cluster.local:5000/fitlogger/fitlogger-app:latest" \
+          BUILD_NAME="kaniko-${GITHUB_SHA::8}-${GITHUB_RUN_NUMBER}"
+          echo "Starting Kaniko build pod: ${BUILD_NAME}"
+          
+          # Delete any stale pod with the same name
+          kubectl delete pod "${BUILD_NAME}" --ignore-not-found
+          
+          # Launch isolated daemonless Kaniko builder in the cluster
+          kubectl run "${BUILD_NAME}" \
+            --restart=Never \
+            --image=gcr.io/kaniko-project/executor:latest -- \
+            --context="git://github.com/bikstok/fitlogger-infra.git#${GITHUB_SHA}" \
+            --context-sub-path=src/fitlogger-app \
+            --dockerfile=Dockerfile \
+            --destination=registry.container-registry.svc.cluster.local:5000/fitlogger/fitlogger-app:${GITHUB_SHA} \
+            --destination=registry.container-registry.svc.cluster.local:5000/fitlogger/fitlogger-app:latest \
             --insecure \
             --skip-tls-verify
-          echo "Successfully pushed fitlogger-app image to internal registry!"
+            
+          # Wait for pod to start and stream build logs
+          echo "Waiting for Kaniko build to complete..."
+          kubectl wait --for=condition=ready pod/"${BUILD_NAME}" --timeout=60s || true
+          kubectl logs -f "${BUILD_NAME}"
+          
+          # Verify successful completion
+          EXIT_CODE=$(kubectl get pod "${BUILD_NAME}" -o jsonpath='{.status.containerStatuses[0].state.terminated.exitCode}')
+          kubectl delete pod "${BUILD_NAME}" --ignore-not-found
+          
+          if [ "$EXIT_CODE" != "0" ]; then
+            echo "Kaniko build failed with exit code ${EXIT_CODE}"
+            exit 1
+          fi
+          echo "Successfully built and pushed image to internal registry!"
