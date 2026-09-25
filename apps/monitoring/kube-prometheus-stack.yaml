@@ -16,6 +16,7 @@ spec:
     helm:
       releaseName: kube-prometheus-stack
       valuesObject:
+        defaultDashboardsEnabled: false
         kubeEtcd:
           enabled: false
         kubeScheduler:
@@ -63,6 +64,9 @@ spec:
         grafana:
           enabled: true
           adminPassword: "prom-operator"
+          grafana.ini:
+            dashboards:
+              default_home_dashboard_path: /tmp/dashboards/fitlogger-overview.json
           resources:
             requests:
               cpu: 50m
