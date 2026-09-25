@@ -55,6 +55,8 @@ spec:
                 memory: 128Mi
         nodeExporter:
           enabled: true
+          hostRootFsMount:
+            enabled: false
         kubeStateMetrics:
           enabled: true
         grafana:
