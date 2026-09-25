@@ -24,7 +24,7 @@ spec:
         fsGroup: 1000
       containers:
         - name: fitlogger-app
-          image: registry.fitlogger.dk/fitlogger/fitlogger-app:00063221e0aef78f3f1f4731761fe521f09c1af4
+          image: registry.fitlogger.dk/fitlogger/fitlogger-app:v1.1.0-9
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
