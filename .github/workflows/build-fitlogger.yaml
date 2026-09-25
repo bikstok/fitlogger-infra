@@ -11,48 +11,27 @@ on:
 
 jobs:
   build-and-push:
-    name: Build & Push via Kaniko (Daemonless)
+    name: Build & Push Container Image
     runs-on: fitlogger-runners
     container:
-      image: ubuntu:24.04
+      image: quay.io/buildah/stable
     steps:
-      - name: Install Dependencies & kubectl
-        run: |
-          apt-get update && apt-get install -y --no-install-recommends curl ca-certificates
-          curl -sSL "https://dl.k8s.io/release/v1.30.0/bin/linux/amd64/kubectl" -o /usr/local/bin/kubectl
-          chmod +x /usr/local/bin/kubectl
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
-      - name: Launch Kaniko In-Cluster Builder
+      - name: Build & Push Image
         run: |
-          BUILD_NAME="kaniko-${GITHUB_SHA::8}-${GITHUB_RUN_NUMBER}"
-          echo "Starting Kaniko build pod: ${BUILD_NAME}"
-          
-          # Delete any stale pod with the same name
-          kubectl delete pod "${BUILD_NAME}" -n arc-runners --ignore-not-found
-          
-          # Launch isolated daemonless Kaniko builder in the cluster
-          kubectl run "${BUILD_NAME}" -n arc-runners \
-            --restart=Never \
-            --image=gcr.io/kaniko-project/executor:latest -- \
-            --context="git://github.com/bikstok/fitlogger-infra.git#${GITHUB_SHA}" \
-            --context-sub-path=src/fitlogger-app \
-            --dockerfile=Dockerfile \
-            --destination=registry.container-registry.svc.cluster.local:5000/fitlogger/fitlogger-app:${GITHUB_SHA} \
-            --destination=registry.container-registry.svc.cluster.local:5000/fitlogger/fitlogger-app:latest \
-            --insecure \
-            --skip-tls-verify
-            
-          # Wait for pod to start and stream build logs
-          echo "Waiting for Kaniko build to complete..."
-          kubectl wait --for=condition=ready pod/"${BUILD_NAME}" -n arc-runners --timeout=60s || true
-          kubectl logs -f "${BUILD_NAME}" -n arc-runners
-          
-          # Verify successful completion
-          EXIT_CODE=$(kubectl get pod "${BUILD_NAME}" -n arc-runners -o jsonpath='{.status.containerStatuses[0].state.terminated.exitCode}')
-          kubectl delete pod "${BUILD_NAME}" -n arc-runners --ignore-not-found
-          
-          if [ "$EXIT_CODE" != "0" ]; then
-            echo "Kaniko build failed with exit code ${EXIT_CODE}"
-            exit 1
-          fi
-          echo "Successfully built and pushed image to internal registry!"
+          echo "Building container image using Buildah (daemonless & rootless)..."
+          buildah --storage-driver vfs bud \
+            -t registry.container-registry.svc.cluster.local:5000/fitlogger/fitlogger-app:${{ github.sha }} \
+            -t registry.container-registry.svc.cluster.local:5000/fitlogger/fitlogger-app:latest \
+            ./src/fitlogger-app
+
+          echo "Pushing image to in-cluster registry..."
+          buildah --storage-driver vfs push --tls-verify=false \
+            registry.container-registry.svc.cluster.local:5000/fitlogger/fitlogger-app:${{ github.sha }}
+
+          buildah --storage-driver vfs push --tls-verify=false \
+            registry.container-registry.svc.cluster.local:5000/fitlogger/fitlogger-app:latest
+
+          echo "Image successfully pushed to registry.container-registry.svc.cluster.local:5000/fitlogger/fitlogger-app:latest"
