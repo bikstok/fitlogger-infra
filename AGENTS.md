@@ -81,6 +81,7 @@ fitlogger-infra/
     │   ├── service.yaml              # ClusterIP service exposed on port 5000
     │   ├── ui-deployment.yaml        # Docker Registry Web UI (joxit/docker-registry-ui)
     │   ├── ui-service.yaml           # ClusterIP service for Web UI (port 80)
+    │   ├── middleware-auth.yaml      # Traefik BasicAuth middleware
     │   └── ingress.yaml              # Ingress for registry.fitlogger.dk (routes to Web UI)
     ├── workloads/
     │   └── fitlogger-app/            # Pure declarative Kubernetes manifests

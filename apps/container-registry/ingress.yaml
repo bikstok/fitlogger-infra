@@ -8,6 +8,7 @@ metadata:
     app.kubernetes.io/part-of: fitlogger-infra
   annotations:
     kubernetes.io/ingress.class: traefik
+    traefik.ingress.kubernetes.io/router.middlewares: container-registry-registry-auth@kubernetescrd
 spec:
   rules:
     - host: registry.fitlogger.dk

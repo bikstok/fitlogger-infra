@@ -1,0 +1,12 @@
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: registry-auth
+  namespace: container-registry
+  labels:
+    app.kubernetes.io/name: registry-auth
+    app.kubernetes.io/part-of: fitlogger-infra
+spec:
+  basicAuth:
+    secret: registry-basic-auth
+    removeHeader: true
