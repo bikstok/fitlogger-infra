@@ -13,9 +13,14 @@ jobs:
   build-and-push:
     name: Build & Push via Kaniko (Daemonless)
     runs-on: fitlogger-runners
+    container:
+      image: ubuntu:24.04
     steps:
-      - name: Install kubectl
-        uses: azure/setup-kubectl@v4
+      - name: Install Dependencies & kubectl
+        run: |
+          apt-get update && apt-get install -y --no-install-recommends curl ca-certificates
+          curl -sSL "https://dl.k8s.io/release/v1.30.0/bin/linux/amd64/kubectl" -o /usr/local/bin/kubectl
+          chmod +x /usr/local/bin/kubectl
 
       - name: Launch Kaniko In-Cluster Builder
         run: |
@@ -23,10 +28,10 @@ jobs:
           echo "Starting Kaniko build pod: ${BUILD_NAME}"
           
           # Delete any stale pod with the same name
-          kubectl delete pod "${BUILD_NAME}" --ignore-not-found
+          kubectl delete pod "${BUILD_NAME}" -n arc-runners --ignore-not-found
           
           # Launch isolated daemonless Kaniko builder in the cluster
-          kubectl run "${BUILD_NAME}" \
+          kubectl run "${BUILD_NAME}" -n arc-runners \
             --restart=Never \
             --image=gcr.io/kaniko-project/executor:latest -- \
             --context="git://github.com/bikstok/fitlogger-infra.git#${GITHUB_SHA}" \
@@ -39,12 +44,12 @@ jobs:
             
           # Wait for pod to start and stream build logs
           echo "Waiting for Kaniko build to complete..."
-          kubectl wait --for=condition=ready pod/"${BUILD_NAME}" --timeout=60s || true
-          kubectl logs -f "${BUILD_NAME}"
+          kubectl wait --for=condition=ready pod/"${BUILD_NAME}" -n arc-runners --timeout=60s || true
+          kubectl logs -f "${BUILD_NAME}" -n arc-runners
           
           # Verify successful completion
-          EXIT_CODE=$(kubectl get pod "${BUILD_NAME}" -o jsonpath='{.status.containerStatuses[0].state.terminated.exitCode}')
-          kubectl delete pod "${BUILD_NAME}" --ignore-not-found
+          EXIT_CODE=$(kubectl get pod "${BUILD_NAME}" -n arc-runners -o jsonpath='{.status.containerStatuses[0].state.terminated.exitCode}')
+          kubectl delete pod "${BUILD_NAME}" -n arc-runners --ignore-not-found
           
           if [ "$EXIT_CODE" != "0" ]; then
             echo "Kaniko build failed with exit code ${EXIT_CODE}"
