@@ -25,38 +25,48 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Determine Human-Readable App Version
+        id: version
+        run: |
+          APP_VERSION=$(grep '"version"' src/fitlogger-app/package.json | head -n 1 | sed -E 's/.*"version": "([^"]+)".*/\1/')
+          RELEASE_TAG="v${APP_VERSION}-${{ github.run_number }}"
+          echo "Computed release tag: ${RELEASE_TAG}"
+          echo "tag=${RELEASE_TAG}" >> "$GITHUB_OUTPUT"
+
       - name: Build & Push Image
         run: |
-          echo "Building container image using Buildah (daemonless & rootless)..."
+          RELEASE_TAG="${{ steps.version.outputs.tag }}"
+          echo "Building container image ${RELEASE_TAG} using Buildah (daemonless & rootless)..."
           buildah --storage-driver vfs bud \
-            -t registry.container-registry.svc.cluster.local:5000/fitlogger/fitlogger-app:${{ github.sha }} \
+            -t registry.container-registry.svc.cluster.local:5000/fitlogger/fitlogger-app:${RELEASE_TAG} \
             -t registry.container-registry.svc.cluster.local:5000/fitlogger/fitlogger-app:latest \
             ./src/fitlogger-app
 
           echo "Pushing image to in-cluster registry..."
           buildah --storage-driver vfs push --tls-verify=false \
-            registry.container-registry.svc.cluster.local:5000/fitlogger/fitlogger-app:${{ github.sha }}
+            registry.container-registry.svc.cluster.local:5000/fitlogger/fitlogger-app:${RELEASE_TAG}
 
           buildah --storage-driver vfs push --tls-verify=false \
             registry.container-registry.svc.cluster.local:5000/fitlogger/fitlogger-app:latest
 
-          echo "Image successfully pushed to registry."
+          echo "Image successfully pushed as ${RELEASE_TAG} and latest."
 
       - name: Update GitOps Manifest
         run: |
+          RELEASE_TAG="${{ steps.version.outputs.tag }}"
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          echo "Updating deployment manifest with image tag ${{ github.sha }}..."
-          sed -i "s|image: registry.fitlogger.dk/fitlogger/fitlogger-app:.*|image: registry.fitlogger.dk/fitlogger/fitlogger-app:${{ github.sha }}|g" apps/workloads/fitlogger-app/deployment.yaml
+          echo "Updating deployment manifest with image tag ${RELEASE_TAG}..."
+          sed -i "s|image: registry.fitlogger.dk/fitlogger/fitlogger-app:.*|image: registry.fitlogger.dk/fitlogger/fitlogger-app:${RELEASE_TAG}|g" apps/workloads/fitlogger-app/deployment.yaml
 
           git add apps/workloads/fitlogger-app/deployment.yaml
           if git diff --staged --quiet; then
             echo "Manifest already up to date, skipping commit."
           else
-            git commit -m "chore(deploy): update fitlogger-app image to ${{ github.sha }} [skip ci]"
+            git commit -m "chore(deploy): update fitlogger-app image to ${RELEASE_TAG} [skip ci]"
             git pull --rebase origin main
             git push origin main
-            echo "Successfully updated deployment manifest in Git. ArgoCD will sync automatically."
+            echo "Successfully updated deployment manifest in Git with tag ${RELEASE_TAG}."
           fi
