@@ -71,6 +71,10 @@ fitlogger-infra/
 │       ├── install.yaml              # ArgoCD upstream installation manifest
 │       └── root-application.yaml     # App-of-Apps bootstrap manifest
 └── apps/
+    ├── argocd/
+    │   ├── ingress.yaml              # Traefik ingress for argocd.fitlogger.dk
+    │   ├── cmd-params-cm.yaml        # Server insecure mode (SSL terminated at edge)
+    │   └── argocd-cm.yaml            # ArgoCD server public URL config
     ├── arc/
     │   ├── controller.yaml           # Actions Runner Controller Helm release (arc-systems)
     │   └── runner-scale-set.yaml     # Ephemeral runner scale set manifest (arc-runners)
