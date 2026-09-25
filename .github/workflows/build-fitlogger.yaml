@@ -15,6 +15,7 @@ jobs:
     runs-on: fitlogger-runners
     container:
       image: gcr.io/kaniko-project/executor:debug
+      options: --entrypoint ""
     steps:
       - name: Checkout Source Code
         uses: actions/checkout@v4
