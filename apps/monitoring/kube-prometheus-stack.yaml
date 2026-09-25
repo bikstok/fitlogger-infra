@@ -55,6 +55,7 @@ spec:
                 memory: 128Mi
         nodeExporter:
           enabled: true
+        prometheus-node-exporter:
           hostRootFsMount:
             enabled: false
         kubeStateMetrics:
