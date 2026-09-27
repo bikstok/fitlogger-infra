@@ -4,7 +4,8 @@ import supabase from "../util/supabaseUtil.js";
 import { Resend } from "resend";
 import { emitUserLogin } from "../util/socketUtil.js";
 
-const resend = new Resend(process.env.RESEND_EMAIL_API_KEY);
+const resendApiKey = process.env.RESEND_EMAIL_API_KEY;
+const resend = resendApiKey ? new Resend(resendApiKey) : null;
 
 const router = Router();
 
@@ -37,17 +38,19 @@ router.post("/api/login", async (req, res) => {
 
     req.session.userId = user.id;
 
-    try {
-      const result = await resend.emails.send({
-        from: "FitLogger Team <no-reply@fitlogger.dk>",
-        to: user.email,
-        subject: "New Login Detected",
-        html: `<p>Hello ${user.user_name}, if you did not just login to FitLogger then please change your password</p>
-           <p>Login detected from IP: <strong>${ip}</strong></p>`,
-      });
-      console.log("Email sent:", result);
-    } catch (err) {
-      console.error("Failed to send login notification email:", err);
+    if (resend) {
+      try {
+        const result = await resend.emails.send({
+          from: "FitLogger Team <no-reply@fitlogger.dk>",
+          to: user.email,
+          subject: "New Login Detected",
+          html: `<p>Hello ${user.user_name}, if you did not just login to FitLogger then please change your password</p>
+             <p>Login detected from IP: <strong>${ip}</strong></p>`,
+        });
+        console.log("Email sent:", result);
+      } catch (err) {
+        console.error("Failed to send login notification email:", err);
+      }
     }
 
     emitUserLogin(req.io, user.user_name);
