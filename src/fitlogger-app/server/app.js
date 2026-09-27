@@ -130,7 +130,7 @@ console.log("Serving static frontend from:", clientDist);
 app.use(express.static(clientDist));
 
 // SPA Fallback
-app.get("*", (req, res) => {
+app.get("/{*splat}", (req, res) => {
   const indexPath = path.join(clientDist, "index.html");
   if (fs.existsSync(indexPath)) {
     res.sendFile(indexPath);
