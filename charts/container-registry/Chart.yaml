@@ -1,0 +1,6 @@
+apiVersion: v2
+name: container-registry
+description: In-cluster CNCF Distribution container registry with Web UI and Traefik BasicAuth
+type: application
+version: 0.1.0
+appVersion: "2"

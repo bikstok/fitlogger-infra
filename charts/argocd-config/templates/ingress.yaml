@@ -1,16 +1,16 @@
+{{- if .Values.ingress.enabled }}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: argocd-server
-  namespace: argocd
   labels:
     app.kubernetes.io/name: argocd-server
     app.kubernetes.io/part-of: argocd
   annotations:
-    kubernetes.io/ingress.class: traefik
+    kubernetes.io/ingress.class: {{ .Values.ingress.ingressClassName }}
 spec:
   rules:
-    - host: argocd.fitlogger.dk
+    - host: {{ .Values.ingress.host }}
       http:
         paths:
           - path: /
@@ -19,4 +19,5 @@ spec:
               service:
                 name: argocd-server
                 port:
-                  name: http
+                  number: 80
+{{- end }}

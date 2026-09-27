@@ -1,0 +1,26 @@
+{{- if .Values.ingress.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: registry
+  labels:
+    app.kubernetes.io/name: registry
+    app.kubernetes.io/part-of: {{ .Chart.Name }}
+  annotations:
+    kubernetes.io/ingress.class: {{ .Values.ingress.ingressClassName }}
+    {{- if .Values.ingress.basicAuth.enabled }}
+    traefik.ingress.kubernetes.io/router.middlewares: {{ .Release.Namespace }}-registry-auth@kubernetescrd
+    {{- end }}
+spec:
+  rules:
+    - host: {{ .Values.ingress.host }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ if .Values.ui.enabled }}registry-ui{{ else }}registry{{ end }}
+                port:
+                  number: {{ if .Values.ui.enabled }}{{ .Values.ui.service.port }}{{ else }}{{ .Values.registry.service.port }}{{ end }}
+{{- end }}

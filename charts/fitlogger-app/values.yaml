@@ -1,0 +1,57 @@
+replicaCount: 1
+
+image:
+  repository: registry.fitlogger.dk/fitlogger/fitlogger-app
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 3000
+
+ingress:
+  enabled: true
+  ingressClassName: traefik
+  host: fitlogger.dk
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 64Mi
+  limits:
+    cpu: 250m
+    memory: 256Mi
+
+env:
+  NODE_ENV: production
+  PORT: "3000"
+  DB_HOST: "fitlogger-app-postgresql"
+  DB_PORT: "5432"
+  DB_NAME: "fitlogger"
+  DB_USER: "fitlogger"
+
+secret:
+  name: fitlogger-app-secret
+
+postgresql:
+  enabled: true
+  auth:
+    database: fitlogger
+    username: fitlogger
+    existingSecret: fitlogger-db-secret
+    secretKeys:
+      userPasswordKey: password
+      adminPasswordKey: postgres-password
+  primary:
+    persistence:
+      enabled: true
+      size: 5Gi
+      storageClass: local-path
+    resources:
+      requests:
+        cpu: 50m
+        memory: 128Mi
+      limits:
+        cpu: 250m
+        memory: 256Mi

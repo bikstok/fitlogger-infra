@@ -58,10 +58,10 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          echo "Updating deployment manifest with image tag ${RELEASE_TAG}..."
-          sed -i "s|image: registry.fitlogger.dk/fitlogger/fitlogger-app:.*|image: registry.fitlogger.dk/fitlogger/fitlogger-app:${RELEASE_TAG}|g" apps/workloads/fitlogger-app/deployment.yaml
+          echo "Updating Helm values with image tag ${RELEASE_TAG}..."
+          sed -i -E "s/tag: \".*\"/tag: \"${RELEASE_TAG}\"/g" charts/fitlogger-app/values.yaml
 
-          git add apps/workloads/fitlogger-app/deployment.yaml
+          git add charts/fitlogger-app/values.yaml
           if git diff --staged --quiet; then
             echo "Manifest already up to date, skipping commit."
           else

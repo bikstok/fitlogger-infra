@@ -1,0 +1,8 @@
+server:
+  insecure: true
+  url: https://argocd.fitlogger.dk
+
+ingress:
+  enabled: true
+  ingressClassName: traefik
+  host: argocd.fitlogger.dk

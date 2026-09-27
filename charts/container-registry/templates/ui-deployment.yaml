@@ -1,11 +1,11 @@
+{{- if .Values.ui.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: registry-ui
-  namespace: container-registry
   labels:
     app.kubernetes.io/name: registry-ui
-    app.kubernetes.io/part-of: fitlogger-infra
+    app.kubernetes.io/part-of: {{ .Chart.Name }}
 spec:
   replicas: 1
   revisionHistoryLimit: 3
@@ -19,32 +19,27 @@ spec:
     spec:
       containers:
         - name: registry-ui
-          image: joxit/docker-registry-ui:2
-          imagePullPolicy: IfNotPresent
+          image: "{{ .Values.ui.image.repository }}:{{ .Values.ui.image.tag }}"
+          imagePullPolicy: {{ .Values.ui.image.pullPolicy }}
           env:
             - name: REGISTRY_TITLE
-              value: "Fitlogger Container Registry"
+              value: {{ .Values.ui.title | quote }}
             - name: SINGLE_REGISTRY
               value: "true"
             - name: DELETE_IMAGES
-              value: "true"
+              value: {{ .Values.ui.deleteImages | quote }}
             - name: SHOW_CONTENT_DIGEST
-              value: "true"
+              value: {{ .Values.ui.showDigest | quote }}
             - name: CATALOG_ELEMENTS_LIMIT
               value: "100"
             - name: NGINX_PROXY_PASS_URL
-              value: "http://registry:5000"
+              value: "http://registry:{{ .Values.registry.service.port }}"
           ports:
             - name: http
-              containerPort: 80
+              containerPort: {{ .Values.ui.service.port }}
               protocol: TCP
           resources:
-            requests:
-              cpu: 20m
-              memory: 32Mi
-            limits:
-              cpu: 100m
-              memory: 64Mi
+            {{- toYaml .Values.ui.resources | nindent 12 }}
           livenessProbe:
             httpGet:
               path: /
@@ -57,3 +52,4 @@ spec:
               port: http
             initialDelaySeconds: 2
             periodSeconds: 5
+{{- end }}

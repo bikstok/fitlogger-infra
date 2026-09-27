@@ -2,10 +2,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: registry
-  namespace: container-registry
   labels:
     app.kubernetes.io/name: registry
-    app.kubernetes.io/part-of: fitlogger-infra
+    app.kubernetes.io/part-of: {{ .Chart.Name }}
 spec:
   replicas: 1
   revisionHistoryLimit: 3
@@ -19,23 +18,18 @@ spec:
     spec:
       containers:
         - name: registry
-          image: registry:2
-          imagePullPolicy: IfNotPresent
+          image: "{{ .Values.registry.image.repository }}:{{ .Values.registry.image.tag }}"
+          imagePullPolicy: {{ .Values.registry.image.pullPolicy }}
           env:
             - name: REGISTRY_STORAGE_DELETE_ENABLED
               value: "true"
           ports:
             - name: registry
-              containerPort: 5000
-              hostPort: 5000
+              containerPort: {{ .Values.registry.service.port }}
+              hostPort: {{ .Values.registry.service.port }}
               protocol: TCP
           resources:
-            requests:
-              cpu: 50m
-              memory: 64Mi
-            limits:
-              cpu: 250m
-              memory: 256Mi
+            {{- toYaml .Values.registry.resources | nindent 12 }}
           livenessProbe:
             httpGet:
               path: /

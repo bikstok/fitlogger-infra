@@ -1,0 +1,44 @@
+registry:
+  image:
+    repository: registry
+    tag: "2"
+    pullPolicy: IfNotPresent
+  storage:
+    size: 10Gi
+    storageClassName: local-path
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 250m
+      memory: 256Mi
+  service:
+    port: 5000
+
+ui:
+  enabled: true
+  image:
+    repository: joxit/docker-registry-ui
+    tag: "2"
+    pullPolicy: IfNotPresent
+  title: "Fitlogger Container Registry"
+  deleteImages: true
+  showDigest: true
+  resources:
+    requests:
+      cpu: 20m
+      memory: 32Mi
+    limits:
+      cpu: 100m
+      memory: 64Mi
+  service:
+    port: 80
+
+ingress:
+  enabled: true
+  ingressClassName: traefik
+  host: registry.fitlogger.dk
+  basicAuth:
+    enabled: true
+    secretName: registry-basic-auth

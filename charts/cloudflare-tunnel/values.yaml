@@ -1,0 +1,21 @@
+replicaCount: 1
+
+image:
+  repository: cloudflare/cloudflared
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+secret:
+  name: cloudflare-tunnel-token
+  key: token
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 64Mi
+  limits:
+    cpu: 200m
+    memory: 128Mi
+
+metrics:
+  port: 2000

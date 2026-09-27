@@ -64,38 +64,36 @@ fitlogger-infra/
 │       ├── package.json              # App dependencies & SemVer source of truth
 │       ├── server.js                 # Express web server & API
 │       └── public/                   # Static web assets & frontend UI
+├── charts/                           # Modular custom Helm charts
+│   ├── fitlogger-app/                # FitLogger App + Bitnami PostgreSQL subchart
+│   │   ├── Chart.yaml
+│   │   ├── values.yaml
+│   │   └── templates/
+│   ├── container-registry/           # Distribution v2 + Web UI + BasicAuth
+│   │   ├── Chart.yaml
+│   │   ├── values.yaml
+│   │   └── templates/
+│   ├── cloudflare-tunnel/            # Cloudflared daemon
+│   │   ├── Chart.yaml
+│   │   ├── values.yaml
+│   │   └── templates/
+│   └── argocd-config/                # ArgoCD Ingress & Edge SSL configuration
+│       ├── Chart.yaml
+│       ├── values.yaml
+│       └── templates/
 ├── bootstrap/
 │   ├── k3s-install.sh                # Node initialization script
 │   ├── registries.yaml               # K3s containerd mirror config (/etc/rancher/k3s/registries.yaml)
 │   └── argocd/
 │       ├── install.yaml              # ArgoCD upstream installation manifest
 │       └── root-application.yaml     # App-of-Apps bootstrap manifest
-└── apps/
-    ├── argocd/
-    │   ├── ingress.yaml              # Traefik ingress for argocd.fitlogger.dk
-    │   ├── cmd-params-cm.yaml        # Server insecure mode (SSL terminated at edge)
-    │   └── argocd-cm.yaml            # ArgoCD server public URL config
-    ├── arc/
-    │   ├── controller.yaml           # Actions Runner Controller Helm release (arc-systems)
-    │   └── runner-scale-set.yaml     # Ephemeral runner scale set manifest (arc-runners)
-    ├── container-registry/
-    │   ├── namespace.yaml
-    │   ├── pvc.yaml                  # Local-path persistent volume claim (10Gi)
-    │   ├── deployment.yaml           # Docker Registry v2 / Distribution
-    │   ├── service.yaml              # ClusterIP service exposed on port 5000
-    │   ├── ui-deployment.yaml        # Docker Registry Web UI (joxit/docker-registry-ui)
-    │   ├── ui-service.yaml           # ClusterIP service for Web UI (port 80)
-    │   ├── middleware-auth.yaml      # Traefik BasicAuth middleware
-    │   └── ingress.yaml              # Ingress for registry.fitlogger.dk (routes to Web UI)
-    ├── workloads/
-    │   └── fitlogger-app/            # Pure declarative Kubernetes manifests
-    │       ├── namespace.yaml        # fitlogger namespace
-    │       ├── deployment.yaml       # App deployment (automated GitOps target)
-    │       ├── service.yaml          # ClusterIP service
-    │       └── ingress.yaml          # Traefik ingress for fitlogger.dk
-    ├── cloudflare-tunnel/            # (Staged) cloudflared daemon pointing to Traefik
-    ├── cert-manager/                 # (Staged) Cloudflare DNS-01 API ClusterIssuer
-    └── monitoring/                   # (Staged) Prometheus, Grafana, Loki
+└── apps/                             # Declarative ArgoCD Application manifests
+    ├── fitlogger-app.yaml            # Targets charts/fitlogger-app
+    ├── container-registry.yaml       # Targets charts/container-registry
+    ├── cloudflare-tunnel.yaml        # Targets charts/cloudflare-tunnel
+    ├── argocd-config.yaml            # Targets charts/argocd-config
+    ├── arc/                          # Upstream Actions Runner Controller Helm releases
+    └── monitoring/                   # Upstream Prometheus, Grafana, Loki Helm releases
 ```
 
 ---
