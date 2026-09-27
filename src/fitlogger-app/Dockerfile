@@ -1,26 +1,27 @@
-# Multi-stage build for Fitlogger web application
-# Fully compatible with Kaniko and Buildah daemonless rootless builders
+# Stage 1: Build Svelte 5 Frontend
+FROM node:22-alpine AS frontend-builder
+WORKDIR /app/fitness-client
 
-FROM node:22-alpine AS deps
+COPY fitness-client/package*.json ./
+RUN npm ci
+
+COPY fitness-client/ ./
+ENV VITE_BASE_URL=""
+RUN npm run build
+
+# Stage 2: Production Server Runtime
+FROM node:22-alpine
 WORKDIR /app
-COPY package.json package-lock.json ./
-RUN npm ci --only=production
-
-FROM node:22-alpine AS runner
-WORKDIR /app
-
 ENV NODE_ENV=production
 ENV PORT=3000
 
-# Run as built-in non-root user (node:node)
+COPY server/package*.json ./server/
+RUN cd server && npm ci --omit=dev
+
+COPY server/ ./server/
+COPY --from=frontend-builder /app/fitness-client/dist ./fitness-client/dist
+
 USER node
-
-# Copy dependencies and application files with proper ownership
-COPY --chown=node:node --from=deps /app/node_modules ./node_modules
-COPY --chown=node:node package.json ./
-COPY --chown=node:node server.js ./
-COPY --chown=node:node public ./public
-
 EXPOSE 3000
 
-CMD ["node", "server.js"]
+CMD ["node", "server/app.js"]

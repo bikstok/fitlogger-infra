@@ -1,0 +1,408 @@
+[
+  {
+    "name": "Shoulder Press (Dumbbell)",
+    "equipment": "Dumbbell",
+    "primary_muscle_group": "Shoulders",
+    "secondary_muscle_group": "Triceps",
+    "image_url": "Dumbbell-Shoulder-Press_Shoulders.mp4"
+  },
+  {
+    "name": "Lat Pulldown (Cable)",
+    "equipment": "Cable",
+    "primary_muscle_group": "Back",
+    "secondary_muscle_group": "Biceps",
+    "image_url": "Cable-Lat-Pulldown_Back.mp4"
+  },
+  {
+    "name": "Bench Press (Smith Machine)",
+    "equipment": "Smith Machine",
+    "primary_muscle_group": "Chest",
+    "secondary_muscle_group": "Triceps, Shoulders",
+    "image_url": "Smith-Machine-Bench-Press_Chest.mp4"
+  },
+  {
+    "name": "Bench Press (Barbell)",
+    "equipment": "Barbell",
+    "primary_muscle_group": "Chest",
+    "secondary_muscle_group": "Triceps, Shoulders",
+    "image_url": "Barbell-Bench-Press_Chest.mp4"
+  },
+  {
+    "name": "Bench Press (Dumbbell)",
+    "equipment": "Dumbbell",
+    "primary_muscle_group": "Chest",
+    "secondary_muscle_group": "Triceps, Shoulders",
+    "image_url": "Dumbbell-Bench-Press_Chest.mp4"
+  },
+  {
+    "name": "Seated Cable Row - V Grip (Cable)",
+    "equipment": "Cable",
+    "primary_muscle_group": "Back",
+    "secondary_muscle_group": "Biceps",
+    "image_url": "Cable-Seated-Cable-Row-V-Grip_Back.mp4"
+  },
+  {
+    "name": "Rear Delt Reverse Fly (Machine)",
+    "equipment": "Machine",
+    "primary_muscle_group": "Shoulders",
+    "secondary_muscle_group": "",
+    "image_url": "Machine-Rear-Delt-Reverse-Fly_Shoulders.mp4"
+  },
+  {
+    "name": "Lateral Raise (Cable)",
+    "equipment": "Cable",
+    "primary_muscle_group": "Shoulders",
+    "secondary_muscle_group": "",
+    "image_url": "Cable-Lateral-Raise_Shoulders.mp4"
+  },
+  {
+    "name": "Skullcrusher (Barbell)",
+    "equipment": "Barbell",
+    "primary_muscle_group": "Triceps",
+    "secondary_muscle_group": "",
+    "image_url": "Barbell-Skullcrusher_Triceps.mp4"
+  },
+  {
+    "name": "EZ Bar Biceps Curl",
+    "equipment": "Barbell",
+    "primary_muscle_group": "Biceps",
+    "secondary_muscle_group": "",
+    "image_url": "Barbell-EZ-Bar-Biceps-Curl_Biceps.mp4"
+  },
+  {
+    "name": "Seated Incline Curl (Dumbbell)",
+    "equipment": "Dumbbell",
+    "primary_muscle_group": "Biceps",
+    "secondary_muscle_group": "",
+    "image_url": "Dumbbell-Seated-Incline-Curl_Biceps.mp4"
+  },
+  {
+    "name": "Lying Leg Curl (Machine)",
+    "equipment": "Machine",
+    "primary_muscle_group": "Hamstrings",
+    "secondary_muscle_group": "",
+    "image_url": "Machine-Lying-Leg-Curl_Hamstrings.mp4"
+  },
+  {
+    "name": "Leg Press Horizontal (Machine)",
+    "equipment": "Machine",
+    "primary_muscle_group": "Quadriceps",
+    "secondary_muscle_group": "Glutes",
+    "image_url": "Machine-Leg-Press-Horizontal_Quadriceps.mp4"
+  },
+  {
+    "name": "Leg Extension (Machine)",
+    "equipment": "Machine",
+    "primary_muscle_group": "Quadriceps",
+    "secondary_muscle_group": "",
+    "image_url": "Machine-Leg-Extension_Quadriceps.mp4"
+  },
+  {
+    "name": "Back Extension (Machine)",
+    "equipment": "Machine",
+    "primary_muscle_group": "Lower Back",
+    "secondary_muscle_group": "Glutes",
+    "image_url": "Machine-Back-Extension_Lower Back.mp4"
+  },
+  {
+    "name": "Crunch (Machine)",
+    "equipment": "Machine",
+    "primary_muscle_group": "Abs",
+    "secondary_muscle_group": "",
+    "image_url": "Machine-Crunch_Abs.mp4"
+  },
+  {
+    "name": "Calf Press (Machine)",
+    "equipment": "Machine",
+    "primary_muscle_group": "Calves",
+    "secondary_muscle_group": "",
+    "image_url": "Machine-Calf-Press_Calves.mp4"
+  },
+  {
+    "name": "Incline Bench Press (Smith Machine)",
+    "equipment": "Smith Machine",
+    "primary_muscle_group": "Chest",
+    "secondary_muscle_group": "Triceps, Shoulders",
+    "image_url": "Smith-Machine-Incline-Bench-Press_Chest.mp4"
+  },
+  {
+    "name": "Chest Fly (Machine)",
+    "equipment": "Machine",
+    "primary_muscle_group": "Chest",
+    "secondary_muscle_group": "Shoulders",
+    "image_url": "Machine-Chest-Fly_Chest.mp4"
+  },
+  {
+    "name": "Lat Pulldown - Close Grip (Cable)",
+    "equipment": "Cable",
+    "primary_muscle_group": "Back",
+    "secondary_muscle_group": "Biceps",
+    "image_url": "Cable-Lat-Pulldown-Close-Grip_Back.mp4"
+  },
+  {
+    "name": "Hip Abduction (Machine)",
+    "equipment": "Machine",
+    "primary_muscle_group": "Glutes",
+    "secondary_muscle_group": "Hips",
+    "image_url": "Machine-Hip-Abduction_Glutes.mp4"
+  },
+  {
+    "name": "Hip Adduction (Machine)",
+    "equipment": "Machine",
+    "primary_muscle_group": "Adductors",
+    "secondary_muscle_group": "Inner Thigh",
+    "image_url": "Machine-Hip-Adduction_Adductors.mp4"
+  },
+  {
+    "name": "Iso-Lateral High Row (Machine)",
+    "equipment": "Machine",
+    "primary_muscle_group": "Back",
+    "secondary_muscle_group": "Biceps",
+    "image_url": "Machine-Iso-Lateral-High-Row_Back.mp4"
+  },
+  {
+    "name": "Iso-Lateral Chest Press (Machine)",
+    "equipment": "Machine",
+    "primary_muscle_group": "Chest",
+    "secondary_muscle_group": "Triceps",
+    "image_url": "Machine-Iso-Lateral-Chest-Press_Chest.mp4"
+  },
+  {
+    "name": "Single Arm Triceps Pushdown (Cable)",
+    "equipment": "Cable",
+    "primary_muscle_group": "Triceps",
+    "secondary_muscle_group": "",
+    "image_url": "Cable-Single-Arm-Triceps-Pushdown_Triceps.mp4"
+  },
+  {
+    "name": "Iso-Lateral Low Row",
+    "equipment": "Machine",
+    "primary_muscle_group": "Back",
+    "secondary_muscle_group": "Biceps",
+    "image_url": "Machine-Iso-Lateral-Low-Row_Back.mp4"
+  },
+  {
+    "name": "Behind the Back Curl (Cable)",
+    "equipment": "Cable",
+    "primary_muscle_group": "Biceps",
+    "secondary_muscle_group": "",
+    "image_url": "Cable-Bicep-Curl-Behind_Biceps.mp4"
+  },
+  {
+    "name": "Hip Thrust (Barbell)",
+    "equipment": "Barbell",
+    "primary_muscle_group": "Glutes",
+    "secondary_muscle_group": "Hamstrings",
+    "image_url": "Barbell-Hip-Thrust_Glutes.mp4"
+  },
+  {
+    "name": "Hack Squat (Machine)",
+    "equipment": "Machine",
+    "primary_muscle_group": "Quadriceps",
+    "secondary_muscle_group": "Glutes, Lower Back",
+    "image_url": "Machine-Hack-Squat_Quadriceps.mp4"
+  },
+  {
+    "name": "Cable Crunch",
+    "equipment": "Cable",
+    "primary_muscle_group": "Abs",
+    "secondary_muscle_group": "",
+    "image_url": "Cable-Crunch_Abs.mp4"
+  },
+  {
+    "name": "Pull Up (Assisted)",
+    "equipment": "Machine",
+    "primary_muscle_group": "Back",
+    "secondary_muscle_group": "Biceps",
+    "image_url": "Assisted-Pull-Up_Back.mp4"
+  },
+  {
+    "name": "Bulgarian Split Squat",
+    "equipment": "Dumbbell",
+    "primary_muscle_group": "Quadriceps",
+    "secondary_muscle_group": "Glutes, Lower Back",
+    "image_url": "Dumbbell-Bulgarian-Split-Squat_Quadriceps.mp4"
+  },
+  {
+    "name": "Seated Leg Curl (Machine)",
+    "equipment": "Machine",
+    "primary_muscle_group": "Hamstrings",
+    "secondary_muscle_group": "",
+    "image_url": "Machine-Seated-Leg-Curl_Hamstrings.mp4"
+  },
+  {
+    "name": "Back Extension (Weighted Hyperextension)",
+    "equipment": "Other",
+    "primary_muscle_group": "Lower Back",
+    "secondary_muscle_group": "Glutes",
+    "image_url": "Weighted-Hyperextension-Back-Extension_Lower Back.mp4"
+  },
+  {
+    "name": "Seated Shoulder Press (Machine)",
+    "equipment": "Machine",
+    "primary_muscle_group": "Shoulders",
+    "secondary_muscle_group": "Triceps",
+    "image_url": "Machine-Seated-Shoulder-Press_Shoulders.mp4"
+  },
+  {
+    "name": "Bicep Curl (Machine)",
+    "equipment": "Machine",
+    "primary_muscle_group": "Biceps",
+    "secondary_muscle_group": "",
+    "image_url": "Machine-Bicep-Curl_Biceps.mp4"
+  },
+  {
+    "name": "Single Arm Lateral Raise (Cable)",
+    "equipment": "Cable",
+    "primary_muscle_group": "Shoulders",
+    "secondary_muscle_group": "",
+    "image_url": "Cable-Single-Arm-Lateral-Raise_Shoulders.mp4"
+  },
+  {
+    "name": "Leg Press (Machine)",
+    "equipment": "Machine",
+    "primary_muscle_group": "Quadriceps",
+    "secondary_muscle_group": "Glutes",
+    "image_url": "Machine-Leg-Press_Quadriceps.mp4"
+  },
+  {
+    "name": "Chest Press (Machine)",
+    "equipment": "Machine",
+    "primary_muscle_group": "Chest",
+    "secondary_muscle_group": "Triceps",
+    "image_url": "Machine-Chest-Press_Chest.mp4"
+  },
+  {
+    "name": "Back Extension Plank",
+    "equipment": "Bodyweight",
+    "primary_muscle_group": "Lower Back",
+    "secondary_muscle_group": "Abs",
+    "image_url": "Weighted-Hyperextension-Plank-Extension_Lower_Back.mp4"
+  },
+  {
+    "name": "Bench Press (Dumbbell)",
+    "equipment": "Dumbbell",
+    "primary_muscle_group": "Chest",
+    "secondary_muscle_group": "Triceps, Shoulders",
+    "image_url": "Dumbbell-Bench-Press_Chest.mp4"
+  },
+  {
+    "name": "Single Arm Curl (Cable)",
+    "equipment": "Cable",
+    "primary_muscle_group": "Biceps",
+    "secondary_muscle_group": "",
+    "image_url": "Cable-Single-Arm-Curl_Biceps.mp4"
+  },
+  {
+    "name": "Skullcrusher (Dumbbell)",
+    "equipment": "Dumbbell",
+    "primary_muscle_group": "Triceps",
+    "secondary_muscle_group": "",
+    "image_url": "Dumbbell-Skullcrusher_Triceps.mp4"
+  },
+  {
+    "name": "Cable Fly Crossovers",
+    "equipment": "Cable",
+    "primary_muscle_group": "Chest",
+    "secondary_muscle_group": "Shoulders",
+    "image_url": "Cable-Fly-Crossovers_Chest.mp4"
+  },
+  {
+    "name": "Bent Over Row (Barbell)",
+    "equipment": "Barbell",
+    "primary_muscle_group": "Back",
+    "secondary_muscle_group": "Biceps",
+    "image_url": "Barbell-Bent-Over-Row_Back.mp4"
+  },
+  {
+    "name": "Seated Row (Machine)",
+    "equipment": "Machine",
+    "primary_muscle_group": "Back",
+    "secondary_muscle_group": "Biceps",
+    "image_url": "Machine-Seated-Row_Back.mp4"
+  },
+  {
+    "name": "Triceps Extension (Cable)",
+    "equipment": "Cable",
+    "primary_muscle_group": "Triceps",
+    "secondary_muscle_group": "",
+    "image_url": "Cable-Triceps-Extension_Triceps.mp4"
+  },
+  {
+    "name": "Face Pull",
+    "equipment": "Cable",
+    "primary_muscle_group": "Shoulders",
+    "secondary_muscle_group": "Upper Back",
+    "image_url": "Cable-Face-Pull_Shoulders.mp4"
+  },
+  {
+    "name": "Single Leg Standing Calf Raise (Dumbbell)",
+    "equipment": "Dumbbell",
+    "primary_muscle_group": "Calves",
+    "secondary_muscle_group": "",
+    "image_url": "Dumbbell-Single-Leg-Standing-Calf-Raise_Calves.mp4"
+  },
+  {
+    "name": "Lat Pulldown (Machine)",
+    "equipment": "Machine",
+    "primary_muscle_group": "Back",
+    "secondary_muscle_group": "Biceps",
+    "image_url": "Machine-Lat-Pulldown_Back.mp4"
+  },
+  {
+    "name": "Incline Bench Press (Dumbbell)",
+    "equipment": "Dumbbell",
+    "primary_muscle_group": "Chest",
+    "secondary_muscle_group": "Triceps, Shoulders",
+    "image_url": "Dumbbell-Incline-Bench-Press_Chest.mp4"
+  },
+  {
+    "name": "Seated Cable Row - Bar Wide Grip",
+    "equipment": "Cable",
+    "primary_muscle_group": "Back",
+    "secondary_muscle_group": "Biceps",
+    "image_url": "Cable-Seated-Cable-Row-Bar-Wide-Grip_Back.mp4"
+  },
+  {
+    "name": "Standing Calf Raise (Machine)",
+    "equipment": "Machine",
+    "primary_muscle_group": "Calves",
+    "secondary_muscle_group": "",
+    "image_url": "Machine-Standing-Calf-Raise_Calves.mp4"
+  },
+  {
+    "name": "Iso-Lateral Row (Machine)",
+    "equipment": "Machine",
+    "primary_muscle_group": "Back",
+    "secondary_muscle_group": "Biceps",
+    "image_url": "Machine-Iso-Lateral-Row_Back.mp4"
+  },
+  {
+    "name": "Preacher Curl (Barbell)",
+    "equipment": "Barbell",
+    "primary_muscle_group": "Biceps",
+    "secondary_muscle_group": "",
+    "image_url": "Barbell-Preacher-Curl_Biceps.mp4"
+  },
+  {
+    "name": "Lateral Raise (Dumbbell)",
+    "equipment": "Dumbbell",
+    "primary_muscle_group": "Shoulders",
+    "secondary_muscle_group": "",
+    "image_url": "Dumbbell-Lateral-Raise_Shoulders.mp4"
+  },
+  {
+    "name": "Bicep Curl (Cable)",
+    "equipment": "Cable",
+    "primary_muscle_group": "Biceps",
+    "secondary_muscle_group": "",
+    "image_url": "Cable-Bicep-Curl_Biceps.mp4"
+  },
+  {
+    "name": "Standing Calf Raise (Smith)",
+    "equipment": "Smith Machine",
+    "primary_muscle_group": "Calves",
+    "secondary_muscle_group": "",
+    "image_url": "Smith-Machine-Standing-Calf-Raise_Calves.mp4"
+  }
+]
