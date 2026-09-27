@@ -19,13 +19,13 @@
 
   let activeUsers = $state(0);
 
-  const BASE_URL = import.meta.env.VITE_BASE_URL || "http://localhost:8080";
+  const BASE_URL = typeof import.meta.env.VITE_BASE_URL !== "undefined" ? import.meta.env.VITE_BASE_URL : "";
 
   onMount(() => {
     loadSession();
     theme.init();
 
-    const socket = io(BASE_URL, {
+    const socket = io(BASE_URL || undefined, {
       withCredentials: true,
     });
 

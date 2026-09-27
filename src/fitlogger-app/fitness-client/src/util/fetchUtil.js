@@ -1,4 +1,4 @@
-const BASE_URL = import.meta.env.VITE_BASE_URL || "http://localhost:8080";
+const BASE_URL = typeof import.meta.env.VITE_BASE_URL !== "undefined" ? import.meta.env.VITE_BASE_URL : "";
 
 export async function fetchGet(endpoint) {
     try {

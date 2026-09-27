@@ -14,6 +14,7 @@ import helmet from "helmet";
 const FRONTEND_ORIGIN = process.env.FRONTEND_ORIGIN || "*";
 
 const app = express();
+app.set("trust proxy", 1);
 app.use(express.json());
 
 // Session configuration
